@@ -8,12 +8,17 @@ import {
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { Image } from "expo-image";
+import catsImage from "./assets/cats.png";
+
+console.log(catsImage);
 
 export default function App() {
+  const { height, width } = useWindowDimensions();
+  const isLandscape = width > height;
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <StatusBar style="auto" hidden={true} />
+        <StatusBar style="auto" />
         <View style={styles.navigation}>
           <Pressable>
             <Text style={styles.navtext}>Home</Text>
@@ -27,21 +32,37 @@ export default function App() {
         </View>
 
         <View style={styles.main}>
-          <Text style={styles.heading}>Gipsy & Ginger</Text>
-          <Text style={styles.subheading}>Get to know my furry friends 🩶🩶</Text>
-          <Text style={styles.infoText}>
-            Gipsy and Ginger are both British Shorthair and almost five years
-            old. Gipsy is quit and a loner, while Ginger is always looking for
-            attention and is very clumsy. Both cats are very sweet with kids and
-            never bite or scratch on purpose. Both are a little bit crazy and
-            always, absolutely ALWAYS hungry. But we love them very much,
-            because they are part of our family. 🩶
-          </Text>
-          <View>
-            <Image
-              source={"assets/cats.png"}
-              style={{ width: 100, height: 100 }}
-            />
+          <View
+            style={{
+              flexDirection: isLandscape ? "row" : "column",
+              maxWidth: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                // width: isLandscape ? "50%" : "100%",
+                flex: isLandscape ? 1 : undefined,
+              }}
+            >
+              <Text style={styles.heading}>Gipsy & Ginger</Text>
+              <Text style={styles.subheading}>
+                Get to know my furry friends 🩶🩶
+              </Text>
+              <Text style={styles.infoText}>
+                Gipsy and Ginger are both British Shorthair and almost five
+                years old. Gipsy is quit and a loner, while Ginger is always
+                looking for attention and is very clumsy. Both cats are very
+                sweet with kids and never bite or scratch on purpose. Both are a
+                little bit crazy and always, absolutely ALWAYS hungry. But we
+                love them very much, because they are part of our family. 🩶
+              </Text>
+            </View>
+
+            <View>
+              <Image source={catsImage} style={{ width: 300, height: 200 }} />
+            </View>
           </View>
           <Pressable style={styles.gallery}>
             <Text style={styles.galleryText}>Go to Gallery</Text>
@@ -60,9 +81,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#DBC7C9",
+    justifyContent: "space-between",
   },
   main: {
-    alignItems: "center",
+    flex: 1,
   },
 
   navigation: {
@@ -86,10 +108,10 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 17,
-    marginHorizontal: 10,
   },
 
   gallery: {
+    alignSelf: "center",
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#9E9B98",
@@ -103,8 +125,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
+    padding: 16,
     justifyContent: "space-between",
-    position: "fixed",
-    marginHorizontal: 10,
   },
 });
